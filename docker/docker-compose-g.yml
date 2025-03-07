@@ -1,0 +1,66 @@
+#docker-compose-g.yml
+
+services:
+  metrics-collector:
+    build: ./metrics-collector
+    container_name: metrics-collector
+    depends_on:
+      - mongo-primary
+    networks:
+      - mongo-network
+    env_file:
+      - .env
+    command: python3 /app/replica_set_metrics.py
+
+
+  mongo-primary:
+    image: mongo:5.0
+    container_name: mongo-primary
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root1
+      MONGO_INITDB_ROOT_PASSWORD: example1
+    command: mongod --replSet rs0 --bind_ip_all --keyFile /data/mongo-keyfile --auth
+    volumes:
+      - mongo-primary-data:/data/db
+      - /Path/to/mongo-keyfile:/data/mongo-keyfile:ro  
+    networks:
+      - mongo-network
+
+  mongo-secondary1:
+    image: mongo:5.0
+    container_name: mongo-secondary1
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root2
+      MONGO_INITDB_ROOT_PASSWORD: example2
+    command: mongod --replSet rs0 --bind_ip_all --keyFile /data/mongo-keyfile --auth
+    volumes:
+      - mongo-secondary1-data:/data/db
+      -  /Path/to/mongo-keyfile:/data/mongo-keyfile:ro
+    networks:
+      - mongo-network
+
+  mongo-secondary2:
+    image: mongo:5.0
+    container_name: mongo-secondary2
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root3
+      MONGO_INITDB_ROOT_PASSWORD: example3
+    command: mongod --replSet rs0 --bind_ip_all --keyFile /data/mongo-keyfile --auth
+    volumes:
+      - mongo-secondary2-data:/data/db
+      -  /Path/to/mongo-keyfile:/data/mongo-keyfile:ro
+    networks:
+      - mongo-network
+
+networks:
+  mongo-network:
+    driver: bridge
+
+
+
+volumes:
+  mongo-primary-data:
+  mongo-secondary1-data:
+  mongo-secondary2-data:
