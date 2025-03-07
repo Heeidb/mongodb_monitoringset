@@ -1,0 +1,62 @@
+.gitignore
+
+.env
+.env.*
+*.pem
+*.key
+mongo-keyfile/
+secrets/
+
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+docker-compose.override.yml
+volumes/
+*.tar
+*.log
+
+
+.aws/
+*.log
+*.json
+
+
+.DS_Store
+Thumbs.db
+
+#
+.vscode/
+.idea/
+
+
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# PyCharm project settings
+.idea/
+
+# VSCode settings
+.vscode/
+
+# MacOS files
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
+
+# Logs
+*.log
